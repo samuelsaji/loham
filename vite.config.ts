@@ -5,10 +5,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // Base path for GitHub Pages deployment
-  // Change '/Loham3/' to your repository name if deploying to a subdirectory
-  // Use '/' for custom domain or username.github.io root deployment
-  base: '/loham/',
+  // Base path - use '/' for Vercel deployment
+  base: '/',
   server: {
     host: "::",
     port: 8080,
