@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => ({
   // Base path for GitHub Pages deployment
   // Change '/Loham3/' to your repository name if deploying to a subdirectory
   // Use '/' for custom domain or username.github.io root deployment
-  base: '/',
+  base: '/loham/',
   server: {
     host: "::",
     port: 8080,
