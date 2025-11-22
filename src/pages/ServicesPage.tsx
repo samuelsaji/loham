@@ -35,13 +35,12 @@ const ServicesPage = () => {
       title: 'Bespoke',
       subtitle: 'Tailored Perfection',
       description:
-        'Tailored exclusively to your vision. Each bespoke piece is a collaboration between your imagination and our mastery, resulting in artifacts that are unmistakably yours.',
+        'Helping you find the right metal and service providers to suit your imagination and vision.',
       features: [
-        'Personal consultation and design briefing',
-        'Unlimited design iterations',
-        'Premium material selection',
-        'Handcrafted by master artisans',
-        'Lifetime authenticity guarantee',
+        'Compare similar products from top brands in seconds.',
+        'View pricing, specifications, and warranty details side-by-side.',
+        'Explore similar sections across brands through our VR view.',
+       
       ],
       image: serviceImage,
     },
@@ -65,13 +64,13 @@ const ServicesPage = () => {
       title: 'Consulting',
       subtitle: 'Design Intelligence',
       description:
-        'Strategic design intelligence. We guide brands and collectors through the nuanced landscape of luxury aesthetics, offering insight that transforms vision into tangible excellence.',
+        'We guide you through the nuances of technical specifications offering insights that transform your vision into tangible excellence.',
       features: [
-        'Brand aesthetic development',
-        'Collection curation',
-        'Material sourcing expertise',
-        'Design trend forecasting',
-        'Strategic creative partnerships',
+        'Seamless coordination from start to finish',
+        'Honest guidance on selecting roofing sheets, windows, doors, handrails, and any other metal sections',
+        'Simple clarity on what truly matters for long-lasting quality.',
+        'Advice based on your climate, project needs, and budget.',
+        
       ],
       image: serviceImage,
     },
@@ -100,7 +99,7 @@ const ServicesPage = () => {
             Our Services
           </h1>
           <p className="hero-text max-w-2xl mx-auto font-body text-lg leading-relaxed text-metallic-aluminum md:text-xl">
-            From concept to creation, we offer a comprehensive suite of services designed to bring your vision to life with uncompromising quality and artistry.
+          From procurement to fabrication, we offer comprehensive suite of services, designed to bring your vision to life with uncompromising quality and artistry
           </p>
         </div>
 

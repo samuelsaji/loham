@@ -7,12 +7,14 @@ import Index from "./pages/Index";
 import ServicesPage from "./pages/ServicesPage";
 import NotFound from "./pages/NotFound";
 import FloatingShopButton from "./components/FloatingShopButton";
+import Loader from "./components/Loader";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <Loader />
       <Toaster />
       <Sonner />
       <BrowserRouter>

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ChevronDown } from 'lucide-react';
 import edgeImage from '@/assets/bg/1.jpg';
 import qualityImage from '@/assets/bg/2.jpg';
 import innovationImage from '@/assets/bg/3.jpg';
@@ -10,31 +11,32 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Services = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const services = [
     {
-      title: 'Our Edge',
+      title: 'Edge',
       description:
-        'Combining technology, trusted partners, and competitive sourcing to simplify and streamline every aspect of architectural procurement and supply.',
+        'We help you simplify the procurement and services of architectural metals by combining technologies, trusted partners and competitive sourcing locally and globally, giving you a fast, seamless, and effortless experience from enquiry to delivery',
       image: edgeImage,
-    },
-    {
-      title: 'Quality',
-      description:
-        'Backed by certified vendors and precision standards, Loham ensures unmatched quality in every metal, every order, every time.',
-      image: qualityImage,
     },
     {
       title: 'Innovation',
       description:
-        'Leveraging technology and market insights, Loham continuously evolves to deliver smarter, faster, and more sustainable metal solutions.',
+        'Instantly compare top-brand products with transparent pricing, specs, and warranty details.leveraging technologies and market insights , Loham helps you simplify complex purchase decisions by clear simple and honest product comparison',
+      image: qualityImage,
+    },
+    {
+      title: 'Quality',
+      description:
+        'Backed by certified vendors , tested and precision standards, Loham ensures , unmatched quality in every metal, every order, every time',
       image: innovationImage,
     },
     {
       title: 'Transparency',
       description:
-        'Every interaction is built on honesty, visibility, and accountability, ensuring total trust in every deal.',
+        'Every order is met with honesty, accountability and integrity ensuring total trust in every transaction',
       image: transparencyImage,
     },
   ];
@@ -58,6 +60,18 @@ const Services = () => {
           setActiveIndex(newIndex);
         },
       });
+
+      // Animate scroll indicator
+      if (scrollIndicatorRef.current) {
+        gsap.to(scrollIndicatorRef.current, {
+          y: 10,
+          opacity: 0.6,
+          duration: 1.5,
+          repeat: -1,
+          yoyo: true,
+          ease: 'power1.inOut',
+        });
+      }
     });
 
     return () => ctx.revert();
@@ -94,20 +108,32 @@ const Services = () => {
           
           {/* Service Title */}
           <div
-            className="relative w-full mb-8 min-h-[10rem] md:min-h-[12rem]"
+            className="relative w-full mb-8 min-h-[10rem] md:min-h-[12rem] flex items-baseline justify-center"
           >
-            {services.map((service, index) => (
-              <h2
-                key={index}
-                className="absolute left-0 top-0 w-full text-center font-display text-6xl font-bold text-primary transition-all duration-700"
-                style={{
-                  transform: `translateY(${(activeIndex - index) * -100}%)`,
-                  opacity: activeIndex === index ? 1 : 0,
-                }}
-              >
-                {service.title}
-              </h2>
-            ))}
+            {/* Static "Our" text */}
+            <span className="font-display text-6xl font-bold text-primary leading-none md:text-7xl">
+              Our
+            </span>
+            <span className="inline-block w-4"></span>
+            {/* Rotating second word */}
+            <div className="relative inline-block min-w-[200px] md:min-w-[300px] leading-none">
+              {services.map((service, index) => (
+                <span
+                  key={index}
+                  className="absolute left-0 font-display text-6xl font-bold text-primary leading-none transition-all duration-700 md:text-7xl"
+                  style={{
+                    transform: `translateY(${(activeIndex - index) * -100}%)`,
+                    opacity: activeIndex === index ? 1 : 0,
+                  }}
+                >
+                  {service.title}
+                </span>
+              ))}
+              {/* Invisible placeholder to maintain height */}
+              <span className="invisible font-display text-6xl font-bold md:text-7xl">
+                {services[0].title}
+              </span>
+            </div>
           </div>
 
           {/* Service Description */}
@@ -148,6 +174,17 @@ const Services = () => {
           <div className="mt-8 font-body text-sm tracking-widest text-metallic-gunmetal">
             {String(activeIndex + 1).padStart(2, '0')} / {String(services.length).padStart(2, '0')}
           </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div
+          ref={scrollIndicatorRef}
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        >
+          <span className="font-body text-xs tracking-widest text-metallic-aluminum">
+            SCROLL
+          </span>
+          <ChevronDown className="h-6 w-6 text-metallic-chrome" />
         </div>
       </div>
     </section>

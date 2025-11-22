@@ -10,8 +10,8 @@ const Index = () => {
     <main className="overflow-x-hidden">
       <Navigation />
       <Hero />
-      <About />
       <Services />
+      <About />
       <Contact />
       <Footer />
     </main>
