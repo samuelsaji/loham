@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navigation from '@/components/Navigation';
@@ -8,11 +8,13 @@ import serviceImage from '@/assets/service-bespoke.jpg';
 import bespokeImage from '@/assets/service-page/bespoke.jpg';
 import atelierImage from '@/assets/service-page/atelier.jpg';
 import consultingImage from '@/assets/service-page/consulting.jpg';
+import Loader from '@/components/Loader';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const ServicesPage = () => {
   const heroRef = useRef<HTMLElement>(null);
+  const [pageLoaded, setPageLoaded] = useState(false);
 
   useEffect(() => {
     const hero = heroRef.current;
@@ -31,6 +33,23 @@ const ServicesPage = () => {
 
     return () => ctx.revert();
   }, []);
+
+  useEffect(() => {
+    const handleLoad = () => {
+      setTimeout(() => setPageLoaded(true), 400);
+    };
+
+    if (document.readyState === 'complete') {
+      handleLoad();
+    } else {
+      window.addEventListener('load', handleLoad);
+      return () => window.removeEventListener('load', handleLoad);
+    }
+  }, []);
+
+  if (!pageLoaded) {
+    return <Loader />;
+  }
 
   const services = [
     {
