@@ -5,6 +5,9 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import Contact from '@/components/Contact';
 import serviceImage from '@/assets/service-bespoke.jpg';
+import bespokeImage from '@/assets/service-page/bespoke.jpg';
+import atelierImage from '@/assets/service-page/atelier.jpg';
+import consultingImage from '@/assets/service-page/consulting.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -42,7 +45,7 @@ const ServicesPage = () => {
         'Explore similar sections across brands through our VR view.',
        
       ],
-      image: serviceImage,
+      image: bespokeImage,
     },
     {
       number: '02',
@@ -57,7 +60,7 @@ const ServicesPage = () => {
         'Experience the craft firsthand',
         'Exclusive atelier sessions',
       ],
-      image: serviceImage,
+      image: atelierImage,
     },
     {
       number: '03',
@@ -72,7 +75,7 @@ const ServicesPage = () => {
         'Advice based on your climate, project needs, and budget.',
         
       ],
-      image: serviceImage,
+      image: consultingImage, // Using atelier image as placeholder - you can add consulting.jpg later
     },
   ];
 
