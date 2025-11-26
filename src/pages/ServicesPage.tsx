@@ -14,7 +14,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ServicesPage = () => {
   const heroRef = useRef<HTMLElement>(null);
-  const [pageLoaded, setPageLoaded] = useState(false);
+  const [windowLoaded, setWindowLoaded] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
 
   useEffect(() => {
     const hero = heroRef.current;
@@ -36,7 +37,7 @@ const ServicesPage = () => {
 
   useEffect(() => {
     const handleLoad = () => {
-      setTimeout(() => setPageLoaded(true), 400);
+      setWindowLoaded(true);
     };
 
     if (document.readyState === 'complete') {
@@ -47,7 +48,40 @@ const ServicesPage = () => {
     }
   }, []);
 
-  if (!pageLoaded) {
+  useEffect(() => {
+    let isMounted = true;
+    const imageSources = [serviceImage, bespokeImage, atelierImage, consultingImage];
+
+    const preloadImages = async () => {
+      await Promise.all(
+        imageSources.map(
+          (src) =>
+            new Promise<void>((resolve) => {
+              const img = new Image();
+              img.src = src;
+              if (img.complete) {
+                resolve();
+              } else {
+                img.onload = () => resolve();
+                img.onerror = () => resolve();
+              }
+            }),
+        ),
+      );
+
+      if (isMounted) {
+        setImagesLoaded(true);
+      }
+    };
+
+    preloadImages();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  if (!(windowLoaded && imagesLoaded)) {
     return <Loader />;
   }
 
