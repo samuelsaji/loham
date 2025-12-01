@@ -57,9 +57,7 @@ const About = () => {
       title: 'Heritage',
       text: (
         <>
-          Decades of excellence from{' '}
-          <span className="text-red-500">Bright Aluminium</span>, carrying
-          forward trusted reliability and quality into a new multi-metal era.
+         Built on decades of experience, our teambringstrusted reliability, technical skill, and consistentquality to every metal solution we deliver.
         </>
       ),
     },
@@ -90,7 +88,7 @@ const About = () => {
               The Story
             </h2>
             <p className="font-body text-lg leading-relaxed text-metallic-aluminum md:text-xl">
-              Where artistry transcends utility
+            Turning proven expertise into purposeful innovation.
             </p>
           </div>
         </div>

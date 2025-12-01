@@ -49,7 +49,7 @@ const Footer = () => {
           {/* Social Links */}
           <div className="flex items-baseline gap-6">
             <a
-              href="#"
+              href="https://www.instagram.com/lohamdotcom?igsh=cG53MW1vZTYxNG10"
               className="group relative text-metallic-aluminum transition-colors hover:text-metallic-chrome"
               aria-label="Instagram"
             >
@@ -57,7 +57,7 @@ const Footer = () => {
               <span className="absolute -bottom-1 left-0 h-px w-0 bg-gradient-metallic transition-all duration-300 group-hover:w-full" />
             </a>
             <a
-              href="#"
+              href="https://www.facebook.com/share/1BUCb6Wqx9/?mibextid=wwXIfr"
               className="group relative text-metallic-aluminum transition-colors hover:text-metallic-chrome"
               aria-label="Facebook"
             >
@@ -65,7 +65,7 @@ const Footer = () => {
               <span className="absolute -bottom-1 left-0 h-px w-0 bg-gradient-metallic transition-all duration-300 group-hover:w-full" />
             </a>
             <a
-              href="https://wa.link/tn9fh9"
+              href="https://wa.me/918714553338?text="
               target="_blank"
               rel="noopener noreferrer"
               className="group relative text-metallic-aluminum transition-colors hover:text-metallic-chrome"
@@ -75,7 +75,7 @@ const Footer = () => {
               <span className="absolute -bottom-1 left-0 h-px w-0 bg-gradient-metallic transition-all duration-300 group-hover:w-full" />
             </a>
             <a
-              href="#"
+              href="https://youtube.com/@lohamdotcom?si=RwZ00ozfxZmCn9g_"
               className="group relative text-metallic-aluminum transition-colors hover:text-metallic-chrome"
               aria-label="YouTube"
             >
@@ -83,7 +83,7 @@ const Footer = () => {
               <span className="absolute -bottom-1 left-0 h-px w-0 bg-gradient-metallic transition-all duration-300 group-hover:w-full" />
             </a>
             <a
-              href="mailto:info@loham.com"
+              href="mailto:Loham.app@gmail.com"
               className="group relative text-metallic-aluminum transition-colors hover:text-metallic-chrome"
               aria-label="Email"
             >
@@ -95,10 +95,10 @@ const Footer = () => {
           {/* Legal & Contact */}
           <div className="flex items-baseline gap-8 font-body text-sm text-metallic-gunmetal">
             <a 
-              href="tel:+1234567890"
+              href="tel:+918714553330"
               className="transition-colors hover:text-metallic-aluminum"
             >
-              +91 1234 567 890
+              +91 8714553330
             </a>
           </div>
         </div>

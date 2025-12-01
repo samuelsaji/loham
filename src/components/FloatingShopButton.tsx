@@ -38,7 +38,7 @@ const FloatingShopButton = () => {
       {[
         {
           label: 'WhatsApp',
-          href: 'https://wa.link/tn9fh9',
+          href: 'https://wa.me/918714553338?text=',
           icon: WhatsAppIcon,
           showLabel: false, // Don't show label at all
         },
