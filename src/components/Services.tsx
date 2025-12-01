@@ -108,21 +108,21 @@ const Services = () => {
           
           {/* Service Title */}
           <div
-            className="relative w-full mb-8 min-h-[10rem] md:min-h-[12rem] flex items-baseline justify-center"
+            className="relative mb-8 flex min-h-[8rem] w-full flex-col items-center justify-center text-center md:min-h-[12rem] md:flex-row md:text-left"
           >
             {/* Static "Our" text */}
-            <span className="font-display text-6xl font-bold text-primary leading-none md:text-7xl">
+            <span className="font-display text-5xl font-bold text-primary leading-none md:text-7xl">
               Our
             </span>
-            <span className="inline-block w-4"></span>
-            {/* Rotating second word */}
-            <div className="relative inline-block min-w-[200px] md:min-w-[300px] leading-none">
+            <span className="hidden w-4 md:inline-block"></span>
+            {/* Rotating second word (always on next line on mobile, inline on desktop) */}
+            <div className="relative mt-2 inline-block min-w-[200px] leading-none md:mt-0 md:min-w-[300px]">
               {services.map((service, index) => (
                 <span
                   key={index}
-                  className="absolute left-0 font-display text-6xl font-bold text-primary leading-none transition-all duration-700 md:text-7xl"
+                  className="absolute left-1/2 -translate-x-1/2 font-display text-5xl font-bold text-primary leading-none transition-all duration-700 md:left-0 md:translate-x-0 md:text-7xl"
                   style={{
-                    transform: `translateY(${(activeIndex - index) * -100}%)`,
+                    top: `${(index - activeIndex) * 100}%`,
                     opacity: activeIndex === index ? 1 : 0,
                   }}
                 >
@@ -130,7 +130,7 @@ const Services = () => {
                 </span>
               ))}
               {/* Invisible placeholder to maintain height */}
-              <span className="invisible font-display text-6xl font-bold md:text-7xl">
+              <span className="invisible font-display text-5xl font-bold md:text-7xl">
                 {services[0].title}
               </span>
             </div>

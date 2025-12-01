@@ -10,7 +10,6 @@ const About = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // ... (GSAP code remains the same)
     const section = sectionRef.current;
     const scrollContainer = scrollContainerRef.current;
 
@@ -18,17 +17,20 @@ const About = () => {
 
     const ctx = gsap.context(() => {
       // Horizontal scroll animation
-      const scrollWidth = scrollContainer.scrollWidth - window.innerWidth;
+      const getScrollWidth = () =>
+        scrollContainer.scrollWidth - section.offsetWidth;
 
-      gsap.to(scrollContainer, {
-        x: -scrollWidth,
+      const horizontalTween = gsap.to(scrollContainer, {
+        // Recalculate on refresh to handle mobile viewport/URL-bar changes
+        x: () => -getScrollWidth(),
         ease: 'none',
         scrollTrigger: {
           trigger: section,
           pin: true,
           scrub: 1,
-          end: () => `+=${scrollWidth}`,
+          end: () => `+=${getScrollWidth()}`,
           anticipatePin: 1,
+          invalidateOnRefresh: true,
         },
       });
 
@@ -40,7 +42,9 @@ const About = () => {
           x: 100,
           scrollTrigger: {
             trigger: block,
-            containerAnimation: gsap.getById('horizontal'),
+            // Tie the triggers to the horizontal tween so they sync correctly,
+            // especially on mobile.
+            containerAnimation: horizontalTween,
             start: 'left right',
             end: 'center center',
             scrub: true,
@@ -72,7 +76,10 @@ const About = () => {
   ];
 
   return (
-    <section ref={sectionRef} className="relative h-screen overflow-hidden bg-deep-black">
+    <section
+      ref={sectionRef}
+      className="relative h-[80vh] overflow-hidden bg-deep-black md:h-screen"
+    >
       <div ref={scrollContainerRef} className="flex h-full" id="horizontal">
         
         {/* Opening Scene */}
