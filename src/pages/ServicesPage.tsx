@@ -14,8 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ServicesPage = () => {
   const heroRef = useRef<HTMLElement>(null);
-  const [windowLoaded, setWindowLoaded] = useState(false);
-  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [heroImageLoaded, setHeroImageLoaded] = useState(false);
 
   useEffect(() => {
     const hero = heroRef.current;
@@ -35,53 +34,20 @@ const ServicesPage = () => {
     return () => ctx.revert();
   }, []);
 
+  // Only preload the hero image (first visible image)
   useEffect(() => {
-    const handleLoad = () => {
-      setWindowLoaded(true);
-    };
-
-    if (document.readyState === 'complete') {
-      handleLoad();
+    const img = new Image();
+    img.src = serviceImage;
+    if (img.complete) {
+      setHeroImageLoaded(true);
     } else {
-      window.addEventListener('load', handleLoad);
-      return () => window.removeEventListener('load', handleLoad);
+      img.onload = () => setHeroImageLoaded(true);
+      img.onerror = () => setHeroImageLoaded(true); // Show content even if image fails
     }
   }, []);
 
-  useEffect(() => {
-    let isMounted = true;
-    const imageSources = [serviceImage, bespokeImage, atelierImage, consultingImage];
-
-    const preloadImages = async () => {
-      await Promise.all(
-        imageSources.map(
-          (src) =>
-            new Promise<void>((resolve) => {
-              const img = new Image();
-              img.src = src;
-              if (img.complete) {
-                resolve();
-              } else {
-                img.onload = () => resolve();
-                img.onerror = () => resolve();
-              }
-            }),
-        ),
-      );
-
-      if (isMounted) {
-        setImagesLoaded(true);
-      }
-    };
-
-    preloadImages();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  if (!(windowLoaded && imagesLoaded)) {
+  // Show loader only briefly while hero image loads
+  if (!heroImageLoaded) {
     return <Loader />;
   }
 
@@ -146,6 +112,8 @@ const ServicesPage = () => {
             src={serviceImage}
             alt="Services"
             className="h-full w-full object-cover"
+            loading="eager"
+            decoding="async"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-void-black via-void-black/80 to-void-black" />
         </div>
@@ -223,6 +191,8 @@ const ServiceDetailSection = ({
                 src={service.image}
                 alt={service.title}
                 className="aspect-[4/5] w-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-void-black/50 to-transparent" />
             </div>
