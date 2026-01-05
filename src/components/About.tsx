@@ -15,42 +15,75 @@ const About = () => {
 
     if (!section || !scrollContainer) return;
 
+    // Check if mobile (viewport width < 768px)
+    const checkMobile = () => window.innerWidth < 768;
+    const isMobile = checkMobile();
+
     const ctx = gsap.context(() => {
-      // Horizontal scroll animation
-      const getScrollWidth = () =>
-        scrollContainer.scrollWidth - section.offsetWidth;
+      if (isMobile) {
+        // On mobile: Simple fade-in animations without horizontal scroll
+        const textBlocks = scrollContainer.querySelectorAll('.story-block');
+        textBlocks.forEach((block) => {
+          gsap.from(block, {
+            opacity: 0,
+            y: 50,
+            scrollTrigger: {
+              trigger: block,
+              start: 'top 80%',
+              end: 'top 50%',
+              scrub: true,
+            },
+          });
+        });
 
-      const horizontalTween = gsap.to(scrollContainer, {
-        // Recalculate on refresh to handle mobile viewport/URL-bar changes
-        x: () => -getScrollWidth(),
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          pin: true,
-          scrub: 1,
-          end: () => `+=${getScrollWidth()}`,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
-      });
+        // Fade in image panel
+        const imagePanel = scrollContainer.querySelector('.image-panel');
+        if (imagePanel) {
+          gsap.from(imagePanel, {
+            opacity: 0,
+            y: 50,
+            scrollTrigger: {
+              trigger: imagePanel,
+              start: 'top 80%',
+              end: 'top 50%',
+              scrub: true,
+            },
+          });
+        }
+      } else {
+        // Desktop: Horizontal scroll animation
+        const getScrollWidth = () =>
+          scrollContainer.scrollWidth - section.offsetWidth;
 
-      // Fade in text blocks as they come into view
-      const textBlocks = scrollContainer.querySelectorAll('.story-block');
-      textBlocks.forEach((block) => {
-        gsap.from(block, {
-          opacity: 0,
-          x: 100,
+        const horizontalTween = gsap.to(scrollContainer, {
+          x: () => -getScrollWidth(),
+          ease: 'none',
           scrollTrigger: {
-            trigger: block,
-            // Tie the triggers to the horizontal tween so they sync correctly,
-            // especially on mobile.
-            containerAnimation: horizontalTween,
-            start: 'left right',
-            end: 'center center',
-            scrub: true,
+            trigger: section,
+            pin: true,
+            scrub: 1,
+            end: () => `+=${getScrollWidth()}`,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
           },
         });
-      });
+
+        // Fade in text blocks as they come into view
+        const textBlocks = scrollContainer.querySelectorAll('.story-block');
+        textBlocks.forEach((block) => {
+          gsap.from(block, {
+            opacity: 0,
+            x: 100,
+            scrollTrigger: {
+              trigger: block,
+              containerAnimation: horizontalTween,
+              start: 'left right',
+              end: 'center center',
+              scrub: true,
+            },
+          });
+        });
+      }
     });
 
     return () => ctx.revert();
@@ -78,17 +111,13 @@ const About = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative h-[80vh] overflow-hidden bg-deep-black md:h-screen"
+      className="relative bg-deep-black md:h-screen md:overflow-hidden"
     >
-      <div ref={scrollContainerRef} className="flex h-full" id="horizontal">
+      <div ref={scrollContainerRef} className="flex flex-col md:flex-row md:h-full" id="horizontal">
         
         {/* Opening Scene */}
         <div
-          // CHANGE 1:
-          // Changed `items-center` to `items-start`
-          // Added `pt-40` to match the other blocks
-          // Added `story-block` class for GSAP fade-in
-          className="story-block flex h-full min-w-screen items-start justify-center px-12 pt-40 md:px-24"
+          className="story-block flex items-start justify-center px-12 py-12 md:h-full md:min-w-screen md:px-24 md:pt-40"
         >
           <div className="max-w-2xl">
             <h2 className="mb-8 font-display text-5xl font-bold text-primary md:text-7xl">
@@ -101,11 +130,11 @@ const About = () => {
         </div>
 
         {/* Image Panel */}
-        <div className="relative h-full min-w-screen">
+        <div className="image-panel relative min-h-[40vh] md:h-full md:min-w-screen">
           <img
             src={aboutImage}
             alt="Artisan craftsmanship"
-            className="h-full w-full object-cover"
+            className="h-full min-h-[40vh] w-full object-cover md:min-h-0"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-deep-black via-transparent to-deep-black" />
         </div>
@@ -114,8 +143,7 @@ const About = () => {
         {stories.map((story, index) => (
           <div
             key={index}
-            // (This block is already correct from last time)
-            className="story-block flex h-full min-w-screen items-start justify-center px-12 pt-40 md:px-24"
+            className="story-block flex items-start justify-center px-12 py-12 md:h-full md:min-w-screen md:px-24 md:pt-40"
           >
             <div className="max-w-xl">
               <div className="mb-6 h-px w-24 bg-gradient-metallic" />
@@ -131,12 +159,7 @@ const About = () => {
 
         {/* Closing */}
         <div
-          // CHANGE 2:
-          // Changed `items-center` to `items-start`
-          // Added `pt-40` to match
-          // Added `md:px-24` for consistent padding
-          // Added `story-block` class for GSAP fade-in
-          className="story-block flex h-full min-w-screen items-start justify-center px-12 pt-40 md:px-24"
+          className="story-block flex items-start justify-center px-12 py-12 md:h-full md:min-w-screen md:px-24 md:pt-40"
         >
           <p className="max-w-md text-center font-display text-2xl italic text-metallic-chrome md:text-3xl">
             "We don’t just trade metals; we forge relationships built on trust, transparency, and transformative innovation."
