@@ -14,42 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ServicesPage = () => {
   const heroRef = useRef<HTMLElement>(null);
-  const [heroImageLoaded, setHeroImageLoaded] = useState(false);
-
-  useEffect(() => {
-    const hero = heroRef.current;
-    if (!hero) return;
-
-    const ctx = gsap.context(() => {
-      gsap.from(hero.querySelectorAll('.hero-text'), {
-        opacity: 0,
-        y: 50,
-        stagger: 0.2,
-        duration: 1,
-        ease: 'power3.out',
-        delay: 0.3,
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
-
-  // Only preload the hero image (first visible image)
-  useEffect(() => {
-    const img = new Image();
-    img.src = serviceImage;
-    if (img.complete) {
-      setHeroImageLoaded(true);
-    } else {
-      img.onload = () => setHeroImageLoaded(true);
-      img.onerror = () => setHeroImageLoaded(true); // Show content even if image fails
-    }
-  }, []);
-
-  // Show loader only briefly while hero image loads
-  if (!heroImageLoaded) {
-    return <Loader />;
-  }
+  const [allImagesLoaded, setAllImagesLoaded] = useState(false);
 
   const services = [
     {
@@ -97,6 +62,52 @@ const ServicesPage = () => {
       image: consultingImage, // Using atelier image as placeholder - you can add consulting.jpg later
     },
   ];
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(hero.querySelectorAll('.hero-text'), {
+        opacity: 0,
+        y: 50,
+        stagger: 0.2,
+        duration: 1,
+        ease: 'power3.out',
+        delay: 0.3,
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  // Preload hero + service images, show loader until all are ready
+  useEffect(() => {
+    const imagesToLoad = [serviceImage, ...services.map((s) => s.image)];
+    let loaded = 0;
+
+    const markLoaded = () => {
+      loaded += 1;
+      if (loaded >= imagesToLoad.length) {
+        setAllImagesLoaded(true);
+      }
+    };
+
+    imagesToLoad.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+      if (img.complete) {
+        markLoaded();
+      } else {
+        img.onload = markLoaded;
+        img.onerror = markLoaded; // still allow page to render
+      }
+    });
+  }, []);
+
+  if (!allImagesLoaded) {
+    return <Loader />;
+  }
 
   return (
     <main className="overflow-x-hidden bg-void-black">
@@ -149,6 +160,7 @@ const ServiceDetailSection = ({
   index: number;
 }) => {
   const sectionRef = useRef<HTMLElement>(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -184,17 +196,20 @@ const ServiceDetailSection = ({
             isEven ? '' : 'md:grid-flow-dense'
           }`}
         >
-          {/* Image */}
-          <div className={`animate-in ${isEven ? '' : 'md:col-start-2'}`}>
-            <div className="relative overflow-hidden">
+          {/* Image (not tied to scroll-trigger opacity so it's ready as soon as section is visible) */}
+          <div className={isEven ? '' : 'md:col-start-2'}>
+            <div className="relative overflow-hidden rounded-2xl border border-metallic-gunmetal/30 shadow-2xl shadow-black/40">
               <img
                 src={service.image}
                 alt={service.title}
-                className="aspect-[4/5] w-full object-cover"
-                loading="lazy"
+                className={`aspect-[4/5] w-full object-cover transition-all duration-800 ease-[cubic-bezier(0.33,0.82,0.46,1)] ${
+                  imageLoaded ? 'opacity-100 scale-100 blur-0' : 'opacity-0 scale-[1.04] blur-[2px]'
+                }`}
+                onLoad={() => setImageLoaded(true)}
+                loading="eager"
                 decoding="async"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-void-black/50 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-void-black/25 via-void-black/10 to-transparent" />
             </div>
           </div>
 
