@@ -154,7 +154,7 @@ const Services = () => {
           </div>
 
           {/* Progress Indicators */}
-          <div className="flex justify-center gap-3">
+          <div className="hidden md:flex justify-center gap-3">
             {services.map((_, index) => (
               <div
                 key={index}
@@ -171,7 +171,7 @@ const Services = () => {
           </div>
 
           {/* Service Counter */}
-          <div className="mt-8 font-body text-sm tracking-widest text-metallic-gunmetal">
+          <div className="hidden md:block mt-8 font-body text-sm tracking-widest text-metallic-gunmetal">
             {String(activeIndex + 1).padStart(2, '0')} / {String(services.length).padStart(2, '0')}
           </div>
         </div>
